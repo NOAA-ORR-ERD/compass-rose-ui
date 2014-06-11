@@ -1,11 +1,11 @@
 /*
- *  Compass UI - a javascript control for selecting velocity and direction
+ *  Compass Rose UI - a javascript control for selecting velocity and direction
  *               for wind and water.
  */
 
 
 (function( $ ) {
-  $.fn.compassUI = function(options, arg) {
+  $.fn.compassRoseUI = function(options, arg) {
 
     return this.each(function() {
       var _this = this;
