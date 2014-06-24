@@ -7,6 +7,10 @@ velocity and direction for wind and water.
 It has been designed as a jquery plugin and as such can be easily
 embedded anywhere(within reason) in an HTML document.
 
+Here's what it looks like.
+![Image of compass-rose-ui]
+(https://github.com/NOAA-ORR-ERD/compass-rose-ui/blob/master/ui_screenshot.png)
+
 ###So How do I Use it??###
 The following is a quick illustration that should tell you pretty much everything
 you need to know to put a compass-rose UI control into your web page.  It wouldn't
