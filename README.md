@@ -8,7 +8,7 @@ It has been designed as a jquery plugin and as such can be easily
 embedded anywhere(within reason) in an HTML document.
 
 Here's what it looks like.
-        
+
 ![Image of compass-rose-ui]
 (https://raw.githubusercontent.com/NOAA-ORR-ERD/compass-rose-ui/master/ui_screenshot.png)
 
@@ -104,12 +104,12 @@ Here is a short snippet that illustrates these functions...
   <script type="text/javascript" >
     ...
 
-    var cardinal_value = 45.0;  // for example
+    var cardinal_value = 'ne';  // for example
 
     var angle = $('#const-wind-1')[0].settings['cardinal-angle'](cardinal_value);
     DoSomethingWithTheAngle(angle);
 
-    var direction_value = 'ne';  // for example
+    var direction_value = 45.0;  // for example
 
     var cardinal = $('#const-wind-1')[0].settings['cardinal-name'](direction_value);
     DoSomethingWithTheCardinal(cardinal);
