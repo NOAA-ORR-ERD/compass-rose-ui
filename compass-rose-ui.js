@@ -57,12 +57,12 @@
                           'E', 'ESE', 'SE', 'SSE',
                           'S', 'SSW', 'SW', 'WSW',
                           'W', 'WNW', 'NW', 'NNW'];
-          var idx = dirNames.indexOf(name.toUpperCase())
+          var idx = dirNames.indexOf(name.toUpperCase());
           if (idx === -1) {
             return null;
           }
           else {
-            return (360.0 / 16) * idx
+            return (360.0 / 16) * idx;
           }
         },
         // we can optionally set a function which happens on a move
@@ -78,26 +78,26 @@
 
           this.frontcanv.getContext('2d').clearRect(
               0, 0, this.frontcanv.width, this.frontcanv.height);
-      }
+      };
 
       this.polarToCartesian = function(angle, magnitude) {
           var radians = angle * Math.PI / 180;
           return {
               x: magnitude * Math.cos(radians),
               y: magnitude * Math.sin(radians)
-          }
-      }
+          };
+      };
 
       this.flipXY = function(coords) {
           var tmp = coords.x;
           coords.x = coords.y;
           coords.y = tmp;
 
-          return coords
-      }
+          return coords;
+      };
 
       this.drawArrow = function(coords) {
-          var canvas = this.frontcanv
+          var canvas = this.frontcanv;
           var ctx = canvas.getContext('2d');
 
           var xmag = (coords.x - canvas.width / 2);
@@ -161,7 +161,7 @@
           {
               canvas.parentElement.settings['move'](canvas.pmag, canvas.pangle);
           }
-      }
+      };
 
       $(this).load(function(ev) {
         var event = ev;
@@ -218,7 +218,7 @@
       ctx.arc(backcanv.width / 2, backcanv.height / 2,
               maxradius, 0, Math.PI * 2, true);
       ctx.closePath();
-      ctx.fillStyle = 'rgba(255, 255, 255, .8)'
+      ctx.fillStyle = 'rgba(255, 255, 255, .8)';
       ctx.fill();
 
       // here are the concentric circles in the target
@@ -235,7 +235,7 @@
       ctx.stroke();
 
       // here are the direction indicator letters
-      ctx.fillStyle = 'rgba(0, 0, 0, .8)'
+      ctx.fillStyle = 'rgba(0, 0, 0, .8)';
       ctx.translate(backcanv.width / 2, backcanv.height / 2);
       var fontsize = backcanv.height / 20 + 1;
       var fontpad = backcanv.height / 50;
@@ -281,14 +281,14 @@
               coordinates = {
                       x: ev.originalEvent.layerX,
                       y: ev.originalEvent.layerY
-              }
+              };
           }
           else {
               // in IE, we use this property
               coordinates = {
                       x: ev.originalEvent.x,
                       y: ev.originalEvent.y
-              }
+              };
           }
 
           _this.drawArrow(coordinates);
@@ -305,14 +305,14 @@
           coordinates = {
                   x: ev.originalEvent.layerX,
                   y: ev.originalEvent.layerY
-          }
+          };
         }
         else {
           // in IE, we use this property
           coordinates = {
                   x: ev.originalEvent.x,
                   y: ev.originalEvent.y
-          }
+          };
         }
 
         _this.drawArrow(coordinates);
