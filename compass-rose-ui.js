@@ -36,8 +36,7 @@
           coordinates.x += this.frontcanv.width / 2;
           coordinates.y += this.frontcanv.height / 2;
 
-          _this.drawArrow(coordinates);
-          canvas.parentElement.settings['move'](newSpeed, newDirection);
+          _this.drawArrow(coordinates, newDirection, newSpeed);
           return;
       }
 
@@ -96,7 +95,7 @@
           return coords;
       };
 
-      this.drawArrow = function(coords) {
+      this.drawArrow = function(coords, direction, speed) {
           var canvas = this.frontcanv;
           var ctx = canvas.getContext('2d');
 
@@ -156,10 +155,12 @@
           ctx.closePath();
 
           // pass our values to the configured move function
-          if (canvas.parentElement.settings &&
-              canvas.parentElement.settings['move'] != null)
-          {
-              canvas.parentElement.settings['move'](canvas.pmag, canvas.pangle);
+          if (canvas.parentElement.settings && canvas.parentElement.settings['move'] != null){
+            if (direction && speed) {
+                canvas.parentElement.settings['move'](speed, direction);
+            } else {
+                canvas.parentElement.settings['move'](canvas.pmag, canvas.pangle);
+            }
           }
       };
 
