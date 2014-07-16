@@ -36,7 +36,8 @@
           coordinates.x += this.frontcanv.width / 2;
           coordinates.y += this.frontcanv.height / 2;
 
-          _this.drawArrow(coordinates, newDirection, newSpeed);
+          _this.drawArrow(coordinates);
+          canvas.parentElement.settings['move'](newSpeed, newDirection);
           return;
       }
 
@@ -87,6 +88,13 @@
           };
       };
 
+      this.cartesianToPolar = function(x, y) {
+        return {
+          magnitude: Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)),
+          angle: Math.atan2(x, y) * 180 / Math.PI
+        }
+      };
+
       this.flipXY = function(coords) {
           var tmp = coords.x;
           coords.x = coords.y;
@@ -95,7 +103,7 @@
           return coords;
       };
 
-      this.drawArrow = function(coords, direction, speed) {
+      this.drawArrow = function(coords) {
           var canvas = this.frontcanv;
           var ctx = canvas.getContext('2d');
 
@@ -104,11 +112,22 @@
 
           canvas.pmag = Math.sqrt(Math.pow(xmag, 2) + Math.pow(ymag, 2));
           canvas.pmag /= canvas.px_per_unit;
+          var temp = canvas.pmag;
+          // Capping maximum magnitude of speed vector to 30
+          (canvas.pmag > 30) ? canvas.pmag = 30 : canvas.pmag;
 
           // Convert degrees to radians
           canvas.pangle = Math.atan2(xmag, ymag) * 180 / Math.PI;
           if (canvas.pangle < 0) {
               canvas.pangle += 360;
+          }
+          if (temp > 30) {
+            coords = this.flipXY(this.polarToCartesian(canvas.pangle, 30));
+            coords.y = -coords.y;
+            coords.x *= canvas.px_per_unit;
+            coords.y *= canvas.px_per_unit;
+            coords.x += canvas.width / 2;
+            coords.y += canvas.height / 2;
           }
 
           // draw a line from the center
@@ -155,12 +174,10 @@
           ctx.closePath();
 
           // pass our values to the configured move function
-          if (canvas.parentElement.settings && canvas.parentElement.settings['move'] != null){
-            if (direction && speed) {
-                canvas.parentElement.settings['move'](speed, direction);
-            } else {
-                canvas.parentElement.settings['move'](canvas.pmag, canvas.pangle);
-            }
+          if (canvas.parentElement.settings &&
+              canvas.parentElement.settings['move'] != null)
+          {   
+              canvas.parentElement.settings['move'](canvas.pmag, canvas.pangle);
           }
       };
 
@@ -224,10 +241,10 @@
 
       // here are the concentric circles in the target
       // TODO: Add a setting for scale.
-      frontcanv.px_per_unit = maxradius / 50;
+      frontcanv.px_per_unit = maxradius / 30;
       ctx.beginPath();
 
-      for (var i = maxradius / 5; i <= maxradius; i += maxradius / 5) {
+      for (var i = maxradius / 3; i <= maxradius; i += maxradius / 3) {
         ctx.moveTo(backcanv.width / 2 + i, backcanv.height / 2);
         ctx.arc(backcanv.width / 2, backcanv.height / 2,
                 i, 0, 2 * Math.PI);
@@ -335,4 +352,3 @@
 
   };
 })( jQuery );
-
