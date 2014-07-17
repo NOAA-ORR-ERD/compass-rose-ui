@@ -26,8 +26,8 @@
 
           this.resetCanvas();
 
-          var newDirection = parseInt(arg.direction);
-          var newSpeed = parseInt(arg.speed);
+          var newDirection = parseFloat(arg.direction);
+          var newSpeed = parseFloat(arg.speed);
           var coordinates = this.flipXY(this.polarToCartesian(newDirection, newSpeed));
 
           coordinates.x *= this.frontcanv.px_per_unit;
@@ -37,7 +37,7 @@
           coordinates.y += this.frontcanv.height / 2;
 
           _this.drawArrow(coordinates);
-          canvas.parentElement.settings['move'](newSpeed, newDirection);
+          this.frontcanv.parentElement.settings['move'](newSpeed, newDirection);
           return;
       }
 
