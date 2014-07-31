@@ -26,8 +26,8 @@
 
           this.resetCanvas();
 
-          var newDirection = parseFloat(arg.direction);
-          var newSpeed = parseFloat(arg.speed);
+          var newDirection = parseInt(arg.direction);
+          var newSpeed = parseInt(arg.speed);
           var coordinates = this.flipXY(this.polarToCartesian(newDirection, newSpeed));
 
           coordinates.x *= this.frontcanv.px_per_unit;
@@ -308,7 +308,6 @@
                       y: ev.originalEvent.y
               };
           }
-
           _this.drawArrow(coordinates);
       });
 
@@ -352,3 +351,4 @@
 
   };
 })( jQuery );
+
