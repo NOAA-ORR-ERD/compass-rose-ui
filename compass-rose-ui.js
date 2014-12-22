@@ -261,10 +261,10 @@
       var fontpad = backcanv.height / 50;
 
       if (window['G_vmlCanvasManager'] != undefined) {
-        ctx.font= 'bold ' + fontsize + 'px Optimer';
+        ctx.font= 'bold ' + fontsize + 'px Arial';
       }
       else {
-        ctx.font= 'bold ' + fontsize + 'px Times New Roman';
+        ctx.font= 'bold ' + fontsize + 'px Arial';
       }
 
       ctx.fillText('N', -5, -((backcanv.height / 2) - fontsize));
