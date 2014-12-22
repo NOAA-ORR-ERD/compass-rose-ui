@@ -37,7 +37,9 @@
           coordinates.y += this.frontcanv.height / 2;
 
           _this.drawArrow(coordinates);
-          this.frontcanv.parentElement.settings['move'](newSpeed, newDirection);
+          if(this.frontcanv.parentElement.settings.move){
+            this.frontcanv.parentElement.settings['move'](newSpeed, newDirection);
+          }
           return;
       }
 
