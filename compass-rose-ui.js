@@ -104,6 +104,25 @@
                 return coords;
             };
 
+            this.getMousePosition = function(ev){
+                // XXX: Do these values get used?
+                var coordinates;
+                var offset = $(this.frontcanv).offset();;
+                if (ev.originalEvent['layerX'] != undefined) {
+                     coordinates = {
+                        x: ev.originalEvent.pageX - offset.left,
+                        y: ev.originalEvent.pageY - offset.top
+                    };
+                } else {
+                    // in IE, we use this property
+                    coordinates = {
+                        x: ev.originalEvent.x,
+                        y: ev.originalEvent.y
+                    };
+                }
+                return coordinates;
+            };
+
             this.drawArrow = function(coords) {
                 var canvas = this.frontcanv;
                 var ctx = canvas.getContext('2d');
@@ -284,20 +303,8 @@
 
             $(frontcanv).mousedown(function (ev) {
                 this.pressed = true;
-                var coordinates;
-                // XXX: Do these values get used?
-                if (ev.originalEvent['layerX'] != undefined) {
-                     coordinates = {
-                        x: ev.originalEvent.layerX,
-                        y: ev.originalEvent.layerY
-                    };
-                } else {
-                    // in IE, we use this property
-                    coordinates = {
-                        x: ev.originalEvent.x,
-                        y: ev.originalEvent.y
-                    };
-                }
+                var coordinates = _this.getMousePosition(ev);
+                
                 _this.drawArrow(coordinates);
                 // pass our values to the configured move function
                 if (this.parentElement.settings &&
@@ -312,20 +319,7 @@
                     return;
                 }
                 this.moved = true;
-                var coordinates;
-
-                if (ev.originalEvent['layerX'] != undefined) {
-                    coordinates = {
-                        x: ev.originalEvent.layerX,
-                        y: ev.originalEvent.layerY
-                    };
-                } else {
-                    // in IE, we use this property
-                    coordinates = {
-                        x: ev.originalEvent.x,
-                        y: ev.originalEvent.y
-                    };
-                }
+                var coordinates = _this.getMousePosition(ev);
 
                 _this.drawArrow(coordinates);
                 // pass our values to the configured move function
