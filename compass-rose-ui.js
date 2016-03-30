@@ -107,7 +107,7 @@
             this.getMousePosition = function(ev){
                 // XXX: Do these values get used?
                 var coordinates;
-                var offset = $(this.frontcanv).offset();;
+                var offset = $(this.frontcanv).offset();
                 if (ev.originalEvent['layerX'] != undefined) {
                      coordinates = {
                         x: ev.originalEvent.pageX - offset.left,
@@ -121,6 +121,10 @@
                     };
                 }
                 return coordinates;
+            };
+
+            this.checkPath = function(ctx, coords, path){
+                return ctx.isPointInPath(path, coords.x, coords.y);
             };
 
             this.drawArrow = function(coords) {
@@ -243,12 +247,11 @@
                             : backcanv.width / 2 - 1) * 0.75;
 
             // here is the backround white target
-            ctx.beginPath();
-            ctx.arc(backcanv.width / 2, backcanv.height / 2,
-                  maxradius, 0, Math.PI * 2, true);
-            ctx.closePath();
+            var path = this.path = new Path2D();
+            this.path.arc(backcanv.width / 2, backcanv.height / 2,
+                  maxradius + 1, 0, Math.PI * 2, true);
             ctx.fillStyle = 'rgba(255, 255, 255, .8)';
-            ctx.fill();
+            ctx.fill(path);
 
             // here are the concentric circles in the target
             // TODO: Add a setting for scale.
@@ -304,13 +307,17 @@
             $(frontcanv).mousedown(function (ev) {
                 this.pressed = true;
                 var coordinates = _this.getMousePosition(ev);
+                var path = _this.path;
+                var inPath = _this.checkPath(ctx, coordinates, path);
                 
-                _this.drawArrow(coordinates);
-                // pass our values to the configured move function
-                if (this.parentElement.settings &&
-                    this.parentElement.settings['move'] != null)
-                {   
-                    this.parentElement.settings['move'](this.pmag, this.pangle);
+                if (inPath) {
+                    _this.drawArrow(coordinates);
+                    // pass our values to the configured move function
+                    if (this.parentElement.settings &&
+                        this.parentElement.settings['move'] !== null)
+                    {
+                        this.parentElement.settings['move'](this.pmag, this.pangle);
+                    }
                 }
             });
 
@@ -320,13 +327,17 @@
                 }
                 this.moved = true;
                 var coordinates = _this.getMousePosition(ev);
+                var path = _this.path;
+                var inPath = _this.checkPath(ctx, coordinates, path);
 
-                _this.drawArrow(coordinates);
-                // pass our values to the configured move function
-                if (this.parentElement.settings &&
-                    this.parentElement.settings['move'] != null)
-                {   
-                    this.parentElement.settings['move'](this.pmag, this.pangle);
+                if (inPath) {
+                    _this.drawArrow(coordinates);
+                    // pass our values to the configured move function
+                    if (this.parentElement.settings &&
+                        this.parentElement.settings['move'] !== null)
+                    {
+                        this.parentElement.settings['move'](this.pmag, this.pangle);
+                    }
                 }
             });
 
@@ -335,7 +346,7 @@
 
                     // pass our values to the configured change function
                     if (this.parentElement.settings &&
-                        this.parentElement.settings['change'] != null)
+                        this.parentElement.settings['change'] !== null)
                     {
                         this.parentElement.settings['change'](this.pmag, this.pangle);
                     }
