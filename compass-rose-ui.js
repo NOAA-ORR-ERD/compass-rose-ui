@@ -196,7 +196,7 @@
                 ctx.closePath();
             };
 
-            $(this).load(function(ev) {
+            $(this).on('load', function(ev) {
                 var event = ev;
             });
 
